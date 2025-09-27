@@ -3,60 +3,84 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Checkbox } from 'primereact/checkbox';
 import { Button } from "primereact/button";
-import { useState } from "react";
-import * as React from "react";
-import { Link } from "react-router-dom";
+import { IconField } from 'primereact/iconfield';
+import { InputIcon } from "primereact/inputicon";
+import { Link } from "react-router";
+import {type SubmitHandler, useForm, Controller} from "react-hook-form";
+
+type LoginFormData = {
+  email: string;
+  password: string;
+  remember: boolean;
+};
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(false);
+  const defaultValues = {
+    email: "",
+    password: "",
+    remember: false
+  }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log({ email, password, remember });
+  const { control, handleSubmit, formState: { errors } } = useForm<LoginFormData>({ defaultValues });
+  const onSubmit: SubmitHandler<LoginFormData> = (data) => console.log(data);
 
-    setEmail("");
-    setPassword("");
-    setRemember(false);
-  };
+  console.log(errors);
 
   return (
     <AuthLayout title="Sign In" description="Sign in to access dashboard">
-      <form onSubmit={handleSubmit} className="flex flex-col w-full gap-5" role="form" aria-label="Login form">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full gap-5" role="form" aria-label="Login form">
         <div className="flex flex-col w-full gap-2">
           <label htmlFor="email">Email</label>
-          <InputText
-            id="email"
-            type="email"
-            placeholder="Email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            aria-required="true"
-            aria-label="Email address"
-            className="w-full"
+          <Controller
+            name="email"
+            control={control}
+            rules={{ required: "Email is required" }}
+            render={({ field }) => (
+              <IconField>
+                <InputIcon className="pi pi-envelope" />
+                <InputText
+                  {...field}
+                  id="email"
+                  type="email"
+                  placeholder="Email address*"
+                  aria-required="true"
+                  aria-label="Email address"
+                />
+              </IconField>
+            )}
           />
         </div>
         <div className="flex flex-col w-full gap-2">
           <label htmlFor="password">Password</label>
-          <Password
-            id="password"
-            placeholder="Password"
-            feedback={false}
-            toggleMask
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            aria-required="true"
-            aria-label="Password"
+          <Controller
+            name="password"
+            control={control}
+            rules={{ required: "Password is required" }}
+            render={({ field }) => (
+              <Password
+                {...field}
+                id="password"
+                placeholder="Password*"
+                feedback={false}
+                toggleMask
+                aria-required="true"
+                aria-label="Password"
+              />
+            )}
           />
         </div>
         <div className="flex items-center justify-between w-full text-sm gap-20">
           <div className="flex items-center gap-2">
-            <Checkbox
-              inputId="remember"
-              checked={remember}
-              onChange={(e) => setRemember(e.checked!)}
-              aria-checked={remember}
+            <Controller
+              name="remember"
+              control={control}
+              render={({ field }) => (
+                <Checkbox
+                  inputId="remember"
+                  checked={field.value}
+                  onChange={(e) => field.onChange(e.checked)}
+                />
+              )}
             />
             <label htmlFor="remember">Remember me</label>
           </div>
