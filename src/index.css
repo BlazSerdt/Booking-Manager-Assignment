@@ -1,1 +1,13 @@
 @import "tailwindcss";
+@import '@fontsource/inter';
+
+@config "../tailwind.config.js";
+
+html, body {
+    @apply font-sans text-base;
+    color: var(--text-color);
+}
+
+.p-icon-field, .p-password-input {
+    width: 100%;
+}
