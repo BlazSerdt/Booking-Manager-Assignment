@@ -6,12 +6,22 @@ import { Link } from "react-router";
 import {type SubmitHandler, useForm, Controller} from "react-hook-form";
 import {IconField} from "primereact/iconfield";
 import {InputIcon} from "primereact/inputicon";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-type RegisterFormData = {
-  displayName: string,
-  email: string,
-  password: string
-};
+const registerSchema = z.object({
+  displayName: z
+    .string()
+    .min(6, "Display name must be at least 6 characters")
+    .max(32, "Display name cannot be longer than 32 characters")
+    .regex(/^[A-Za-z0-9]+$/, "Display name can only contain letters and numbers"),
+  email: z.email("Invalid email address"),
+  password: z.string()
+    .min(8, "Password must be at least 8 characters")
+    .max(32, "Password cannot be longer than 32 characters"),
+})
+
+type RegisterFormData = z.infer<typeof registerSchema>;
 
 const RegisterPage = () => {
   const defaultValues = {
@@ -20,10 +30,11 @@ const RegisterPage = () => {
     password: ""
   }
 
-  const { control, handleSubmit, formState: { errors } } = useForm<RegisterFormData>({ defaultValues });
+  const { control, handleSubmit, formState: { errors } } = useForm<RegisterFormData>({
+    defaultValues: defaultValues,
+    resolver: zodResolver(registerSchema)
+  });
   const onSubmit: SubmitHandler<RegisterFormData> = (data) => console.log(data);
-
-  console.log(errors);
 
   return (
     <AuthLayout title="Register" description="Create an account as a Tenant Admin">
@@ -33,7 +44,6 @@ const RegisterPage = () => {
           <Controller
             name="displayName"
             control={control}
-            rules={{ required: "Display name is required" }}
             render={({ field }) => (
               <IconField>
                 <InputIcon className="pi pi-user" />
@@ -42,19 +52,23 @@ const RegisterPage = () => {
                   id="displayName"
                   type="text"
                   placeholder="Display name*"
-                  aria-required="true"
-                  aria-label="Display name"
+                  aria-invalid={!!errors.displayName}
+                  invalid={!!errors.displayName}
                 />
               </IconField>
             )}
           />
+          {errors.displayName && (
+            <small id="displayName-error" className="text-red-500">
+              {errors.displayName.message}
+            </small>
+          )}
         </div>
         <div className="flex flex-col w-full gap-2">
           <label htmlFor="email">Email</label>
           <Controller
             name="email"
             control={control}
-            rules={{ required: "Email is required" }}
             render={({ field }) => (
               <IconField>
                 <InputIcon className="pi pi-envelope" />
@@ -63,19 +77,23 @@ const RegisterPage = () => {
                   id="email"
                   type="email"
                   placeholder="Email address*"
-                  aria-required="true"
-                  aria-label="Email address"
+                  aria-invalid={!!errors.email}
+                  invalid={!!errors.email}
                 />
               </IconField>
             )}
           />
+          {errors.email && (
+            <small id="email-error" className="text-red-500">
+              {errors.email.message}
+            </small>
+          )}
         </div>
         <div className="flex flex-col w-full gap-2">
           <label htmlFor="password">Password</label>
           <Controller
             name="password"
             control={control}
-            rules={{ required: "Password is required" }}
             render={({ field }) => (
               <Password
                 {...field}
@@ -83,11 +101,16 @@ const RegisterPage = () => {
                 placeholder="Password*"
                 feedback={false}
                 toggleMask
-                aria-required="true"
-                aria-label="Password"
+                aria-invalid={!!errors.password}
+                invalid={!!errors.password}
               />
             )}
           />
+          {errors.password && (
+            <small id="password-error" className="text-red-500">
+              {errors.password.message}
+            </small>
+          )}
         </div>
         <Button label="Register" type="submit" className="w-full" />
         <div className="text-center text-sm">

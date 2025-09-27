@@ -7,12 +7,16 @@ import { IconField } from 'primereact/iconfield';
 import { InputIcon } from "primereact/inputicon";
 import { Link } from "react-router";
 import {type SubmitHandler, useForm, Controller} from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-type LoginFormData = {
-  email: string;
-  password: string;
-  remember: boolean;
-};
+const loginSchema = z.object({
+  email: z.email("Invalid email address"),
+  password: z.string().min(1, "Password is required"),
+  remember: z.boolean().optional(),
+})
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
   const defaultValues = {
@@ -21,10 +25,12 @@ const LoginPage = () => {
     remember: false
   }
 
-  const { control, handleSubmit, formState: { errors } } = useForm<LoginFormData>({ defaultValues });
-  const onSubmit: SubmitHandler<LoginFormData> = (data) => console.log(data);
+  const { control, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
+    defaultValues: defaultValues,
+    resolver: zodResolver(loginSchema)
+  });
 
-  console.log(errors);
+  const onSubmit: SubmitHandler<LoginFormData> = (data) => console.log(data);
 
   return (
     <AuthLayout title="Sign In" description="Sign in to access dashboard">
@@ -34,7 +40,6 @@ const LoginPage = () => {
           <Controller
             name="email"
             control={control}
-            rules={{ required: "Email is required" }}
             render={({ field }) => (
               <IconField>
                 <InputIcon className="pi pi-envelope" />
@@ -43,19 +48,23 @@ const LoginPage = () => {
                   id="email"
                   type="email"
                   placeholder="Email address*"
-                  aria-required="true"
-                  aria-label="Email address"
+                  aria-invalid={!!errors.email}
+                  invalid={!!errors.email}
                 />
               </IconField>
             )}
           />
+          {errors.email && (
+            <small id="email-error" className="text-red-500">
+              {errors.email.message}
+            </small>
+          )}
         </div>
         <div className="flex flex-col w-full gap-2">
           <label htmlFor="password">Password</label>
           <Controller
             name="password"
             control={control}
-            rules={{ required: "Password is required" }}
             render={({ field }) => (
               <Password
                 {...field}
@@ -63,11 +72,16 @@ const LoginPage = () => {
                 placeholder="Password*"
                 feedback={false}
                 toggleMask
-                aria-required="true"
-                aria-label="Password"
+                aria-invalid={!!errors.password}
+                invalid={!!errors.password}
               />
             )}
           />
+          {errors.password && (
+            <small id="password-error" className="text-red-500">
+              {errors.password.message}
+            </small>
+          )}
         </div>
         <div className="flex items-center justify-between w-full text-sm gap-20">
           <div className="flex items-center gap-2">
@@ -77,7 +91,7 @@ const LoginPage = () => {
               render={({ field }) => (
                 <Checkbox
                   inputId="remember"
-                  checked={field.value}
+                  checked={!!field.value}
                   onChange={(e) => field.onChange(e.checked)}
                 />
               )}
