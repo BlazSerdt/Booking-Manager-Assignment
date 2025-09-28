@@ -8,6 +8,10 @@ export type AppProviderProps = ChildrenProps;
 export type AuthProviderProps = ChildrenProps;
 export type AppLayoutProps = ChildrenProps;
 
+export interface TopbarProps {
+  onSidebarToggle: () => void;
+}
+
 export interface ProtectedRouteProps extends ChildrenProps {
   roles?: Role[];
 }

@@ -4,7 +4,7 @@ const DashboardPage = () => {
   return (
     <AppLayout>
       <div className="flex items-center justify-center">
-
+        dashboard
       </div>
     </AppLayout>
   );

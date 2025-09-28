@@ -1,12 +1,17 @@
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
 import { IconField } from "primereact/iconfield";
+import React from "react";
 
-export const SearchBar = () => {
+interface SearchBarProps {
+  onInput?: (e: React.FormEvent<HTMLInputElement>) => void;
+}
+
+export const SearchBar = ({ onInput }: SearchBarProps) => {
   return (
-    <IconField iconPosition="left" className="mr-1">
+    <IconField iconPosition="left" className="mr-1 max-w-64">
       <InputIcon className="pi pi-search"> </InputIcon>
-      <InputText placeholder="Search" />
+      <InputText placeholder="Search" onInput={onInput}  />
     </IconField>
   );
 }
