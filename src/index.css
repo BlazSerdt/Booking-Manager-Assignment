@@ -11,3 +11,8 @@ html, body {
 .p-icon-field, .p-password-input, .p-inputtext {
     width: 100%;
 }
+
+.p-menubar {
+    background-color: white;
+    padding: 15px;
+}

@@ -1,8 +1,12 @@
+import { AppLayout } from "../../../components/layouts/app-layout.tsx";
+
 const DashboardPage = () => {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-    </div>
+    <AppLayout>
+      <div className="flex items-center justify-center">
+
+      </div>
+    </AppLayout>
   );
 }
 

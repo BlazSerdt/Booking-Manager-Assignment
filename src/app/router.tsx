@@ -15,9 +15,10 @@ export const AppRouter = ()=> {
         <Route
           path="/app/dashboard"
           element={
-            <ProtectedRoute roles={["super_admin", "tenant_admin"]}>
+            /*<ProtectedRoute roles={["super_admin", "tenant_admin"]}>
               <DashboardPage />
-            </ProtectedRoute>
+            </ProtectedRoute>*/
+            <DashboardPage />
           }
         />
 

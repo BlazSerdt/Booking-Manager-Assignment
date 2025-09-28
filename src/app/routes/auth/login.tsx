@@ -1,4 +1,4 @@
-import { AuthLayout} from "../../../components/layouts/auth-layout.tsx";
+import { AuthLayout } from "../../../components/layouts/auth-layout.tsx";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Checkbox } from 'primereact/checkbox';

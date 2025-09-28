@@ -1,15 +1,14 @@
 import { type ReactNode } from "react";
 
-export type AppProviderProps = {
-  children: ReactNode;
-};
-
-export type AuthProviderProps = {
+export type ChildrenProps = {
   children: ReactNode;
 }
 
-export interface ProtectedRouteProps {
-  children: ReactNode;
+export type AppProviderProps = ChildrenProps;
+export type AuthProviderProps = ChildrenProps;
+export type AppLayoutProps = ChildrenProps;
+
+export interface ProtectedRouteProps extends ChildrenProps {
   roles?: Role[];
 }
 
