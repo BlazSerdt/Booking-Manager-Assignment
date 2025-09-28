@@ -3,11 +3,14 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { Link } from "react-router";
-import {type SubmitHandler, useForm, Controller} from "react-hook-form";
-import {IconField} from "primereact/iconfield";
-import {InputIcon} from "primereact/inputicon";
+import { type SubmitHandler, useForm, Controller } from "react-hook-form";
+import { IconField } from "primereact/iconfield";
+import { InputIcon } from "primereact/inputicon";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Toast } from "primereact/toast";
+import { useRef } from "react";
+import { useNavigate } from "react-router";
 
 const registerSchema = z.object({
   displayName: z
@@ -24,6 +27,9 @@ const registerSchema = z.object({
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 const RegisterPage = () => {
+  const toast = useRef<Toast>(null);
+  const navigate = useNavigate();
+
   const defaultValues = {
     displayName: "",
     email: "",
@@ -34,10 +40,44 @@ const RegisterPage = () => {
     defaultValues: defaultValues,
     resolver: zodResolver(registerSchema)
   });
-  const onSubmit: SubmitHandler<RegisterFormData> = (data) => console.log(data);
+
+  const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
+    try{
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if(response.status !== 201){
+        const error = await response.json();
+
+        toast.current?.show({
+          severity: 'error',
+          summary: 'Registration Failed',
+          detail: error.message,
+          life: 2000
+        });
+
+        return;
+      }
+
+      toast.current?.show({
+        severity: 'success',
+        summary: 'Registration Successful',
+        detail: 'Redirecting to login...',
+        life: 2000
+      });
+
+      setTimeout(() => navigate("/login"), 2000);
+    } catch(error){
+      console.log("network error: ", error);
+    }
+  }
 
   return (
     <AuthLayout title="Register" description="Create an account as a Tenant Admin">
+      <Toast ref={toast} />
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full gap-5 " role="form" aria-label="Register form">
         <div className="flex flex-col w-full gap-2">
           <label htmlFor="displayName">Display Name</label>

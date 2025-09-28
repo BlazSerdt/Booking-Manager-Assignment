@@ -9,6 +9,8 @@ import { Link } from "react-router";
 import {type SubmitHandler, useForm, Controller} from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Toast } from "primereact/toast";
+import { useRef } from "react";
 
 const loginSchema = z.object({
   email: z.email("Invalid email address"),
@@ -19,6 +21,8 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
+  const toast = useRef<Toast>(null);
+
   const defaultValues = {
     email: "",
     password: "",
@@ -30,10 +34,36 @@ const LoginPage = () => {
     resolver: zodResolver(loginSchema)
   });
 
-  const onSubmit: SubmitHandler<LoginFormData> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
+    try{
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if(response.status !== 200){
+        const error = await response.json();
+        toast.current?.show({
+          severity: 'error',
+          summary: 'Login Failed',
+          detail: error.message,
+          life: 2000
+        });
+
+        return;
+      }
+
+      const result = await response.json();
+      console.log(result);
+    } catch(error) {
+      console.log("network error: ", error);
+    }
+  }
 
   return (
     <AuthLayout title="Sign In" description="Sign in to access dashboard">
+      <Toast ref={toast} />
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full gap-5" role="form" aria-label="Login form">
         <div className="flex flex-col w-full gap-2">
           <label htmlFor="email">Email</label>
