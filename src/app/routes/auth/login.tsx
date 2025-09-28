@@ -11,6 +11,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
+import { useAuth } from "../../../components/auth/auth.tsx";
+import { useNavigate } from "react-router";
 
 const loginSchema = z.object({
   email: z.email("Invalid email address"),
@@ -22,6 +24,8 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
   const toast = useRef<Toast>(null);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const defaultValues = {
     email: "",
@@ -42,20 +46,22 @@ const LoginPage = () => {
         body: JSON.stringify(data),
       });
 
+      const result = await response.json();
+
       if(response.status !== 200){
-        const error = await response.json();
         toast.current?.show({
           severity: 'error',
           summary: 'Login Failed',
-          detail: error.message,
+          detail: result.message,
           life: 2000
         });
 
         return;
       }
 
-      const result = await response.json();
-      console.log(result);
+      login(result.user, result.accessToken);
+      navigate("/app/dashboard");
+
     } catch(error) {
       console.log("network error: ", error);
     }

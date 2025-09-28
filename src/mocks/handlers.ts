@@ -1,15 +1,6 @@
 import { http, HttpResponse } from "msw";
 import { v4 as uuid } from "uuid";
-
-type Role = "super_admin" | "tenant_admin";
-
-interface User {
-  id: string;
-  displayName: string;
-  email: string;
-  password: string;
-  role: Role;
-}
+import type { User } from "../types";
 
 const users: User[] = [
   {
