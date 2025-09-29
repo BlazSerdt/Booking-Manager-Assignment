@@ -1,11 +1,11 @@
 import { AppLayout } from "../../../components/layouts/app-layout.tsx";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import {DataTable, type DataTableRowClickEvent} from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import { SearchBar } from "../../../components/ui/SearchBar.tsx";
-import {type LocationFormData, LocationFormDialog} from "../../../components/ui/location/LocationFormDialog.tsx";
-import {useAuth} from "../../../components/auth/auth.tsx";
+import { type LocationFormData, LocationFormDialog } from "../../../components/ui/location/LocationFormDialog.tsx";
+import { useAuth } from "../../../components/auth/auth.tsx";
 import type { Location } from "../../../types";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
@@ -136,43 +136,41 @@ const LocationsPage = () => {
 
   const tableHeader = (
     <div className="flex justify-between items-center w-full">
-      <div className="flex gap-8 items-center justify-center">
-        <h3 className="text-lg font-semibold">Manage Your Locations</h3>
+      <h3 className="text-lg font-semibold">Manage Your Locations</h3>
+      <div className="flex gap-2 items-center justify-center">
+        <SearchBar onInput={(e) => setGlobalFilter(e.target.value)} />
         <Button
           icon="pi pi-plus-circle"
-          label="New"
+          label="New location"
           severity="success"
           onClick={() => setCreateDialogVisible(true)}
         />
       </div>
-      <SearchBar onInput={(e) => setGlobalFilter(e.target.value)} />
     </div>
   );
 
   return (
     <AppLayout>
       <Toast ref={toast} />
-      <div className="w-full">
-        <DataTable
-          value={locations}
-          header={tableHeader}
-          globalFilter={globalFilter}
-          paginator
-          rows={7}
-          removableSort
-          tableStyle={{ minWidth: "75rem" }}
-          className="rounded-xl overflow-hidden cursor-pointer"
-          onRowClick={handleRowClick}
-          rowHover
-        >
-          <Column field="name" header="Name" sortable style={{ width: '16%' }} />
-          <Column field="address" header="Address" style={{ width: '16%' }} />
-          <Column field="city" header="City" sortable style={{ width: '16%' }} />
-          <Column field="country" header="Country" sortable style={{ width: '16%' }} />
-          <Column field="timezone" header="Timezone" style={{ width: '16%' }} />
-          <Column header="Actions" body={actionTemplate} alignHeader="center" align="center"/>
-        </DataTable>
-      </div>
+      <DataTable
+        value={locations}
+        header={tableHeader}
+        globalFilter={globalFilter}
+        paginator
+        rows={7}
+        removableSort
+        tableStyle={{ minWidth: "75rem" }}
+        className="rounded-xl overflow-hidden cursor-pointer"
+        onRowClick={handleRowClick}
+        rowHover
+      >
+        <Column field="name" header="Name" style={{ width: '16%' }} />
+        <Column field="address" header="Address" style={{ width: '16%' }} />
+        <Column field="city" header="City" sortable style={{ width: '16%' }} />
+        <Column field="country" header="Country" sortable style={{ width: '16%' }} />
+        <Column field="timezone" header="Timezone" style={{ width: '16%' }} />
+        <Column header="Actions" body={actionTemplate} alignHeader="center" align="center"/>
+      </DataTable>
 
       <LocationFormDialog
         visible={createDialogVisible}

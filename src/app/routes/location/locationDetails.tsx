@@ -7,6 +7,7 @@ import { Divider } from "primereact/divider";
 import { LocationDetailsTabContent } from "../../../components/ui/location/LocationDetailsTabContent.tsx";
 import { LocationDetailsTabSkeleton } from "../../../components/ui/location/LocationDetailsTabSkeleton.tsx";
 import { QRTab } from "../../../components/ui/location/QRTab.tsx";
+import {ReservationTable} from "../../../components/ui/reservation/ReservationTable.tsx";
 
 const LocationDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -44,12 +45,12 @@ const LocationDetailsPage = () => {
               <TabView>
                 <TabPanel header="Details" leftIcon="pi pi-info-circle mr-3">
                   <div className="p-6">
-                    <LocationDetailsTabContent name={location.name} address={location.address} city={location.city} country={location.country} timezone={location.timezone} />
+                    <LocationDetailsTabContent name={location.name} address={location.address} city={location.city} country={location.country} timezone={location.timezone} notes={location.notes} />
                   </div>
                 </TabPanel>
 
                 <TabPanel header="Reservations" leftIcon="pi pi-calendar mr-3">
-
+                  <ReservationTable />
                 </TabPanel>
 
                 <TabPanel header="QR Code" leftIcon="pi pi-qrcode mr-3">

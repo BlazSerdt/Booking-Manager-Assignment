@@ -16,3 +16,7 @@ html, body {
     background-color: white;
     padding: 15px;
 }
+
+.p-tag{
+    width: 60%;
+}

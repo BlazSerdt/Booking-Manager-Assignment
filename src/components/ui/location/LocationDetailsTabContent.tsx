@@ -1,6 +1,6 @@
 import type {LocationDetailsTabContentProps} from "../../../types";
 
-export const LocationDetailsTabContent = ({name, address, city, country, timezone } : LocationDetailsTabContentProps) => {
+export const LocationDetailsTabContent = ({name, address, city, country, timezone, notes } : LocationDetailsTabContentProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
       <div className="flex items-start gap-3">
@@ -40,6 +40,14 @@ export const LocationDetailsTabContent = ({name, address, city, country, timezon
         <div>
           <h3 className="mb-1 uppercase text-sm font-semibold">Timezone</h3>
           <p className="text-lg">{timezone}</p>
+        </div>
+      </div>
+
+      <div className="flex items-start gap-3">
+        <i className="pi pi-pencil text-gray-500" style={{ fontSize: '1.2rem' }}></i>
+        <div>
+          <h3 className="mb-1 uppercase text-sm font-semibold">Notes</h3>
+          <p className="text-lg">{notes ? notes : "No notes"}</p>
         </div>
       </div>
     </div>

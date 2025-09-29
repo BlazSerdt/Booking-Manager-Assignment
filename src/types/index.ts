@@ -22,6 +22,7 @@ export type LocationDetailsTabContentProps = {
   city: string;
   country: string;
   timezone: string;
+  notes: string;
 };
 
 export type QRTabProps = {
@@ -49,4 +50,16 @@ export interface Location {
   timezone: string;
   qrCodeValue: string;
   notes: string;
+}
+
+export interface Reservation {
+  id: string;
+  tenantId: string;
+  locationId: string;
+  guestName: string;
+  guestPhone: string;
+  guestEmail: string;
+  checkIn: string;
+  checkOut: string;
+  status: "Booked" | "Checked in" | "Checked out" | "Cancelled";
 }

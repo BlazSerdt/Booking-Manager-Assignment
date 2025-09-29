@@ -48,6 +48,8 @@ const LoginPage = () => {
 
       const result = await response.json();
 
+      console.log(result);
+
       if(response.status !== 200){
         toast.current?.show({
           severity: 'error',
