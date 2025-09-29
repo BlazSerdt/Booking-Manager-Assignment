@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./routes/auth/login";
 import RegisterPage from "./routes/auth/register";
-import DashboardPage from "./routes/app/dashboard";
+import DashboardPage from "./routes/dashboard.tsx";
 import NotFoundPage from "./routes/not-found.tsx";
 import { ProtectedRoute } from "../components/auth/ProtectedRoute.tsx";
-import LocationsPage from "./routes/app/locations.tsx";
-import LocationDetailsPage from "./routes/app/locationDetails.tsx";
+import LocationsPage from "./routes/location/locations.tsx";
+import LocationDetailsPage from "./routes/location/locationDetails.tsx";
 
 export const AppRouter = ()=> {
   return (

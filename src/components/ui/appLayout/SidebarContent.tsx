@@ -1,4 +1,4 @@
-import { MenuButton } from "./MenuButton.tsx";
+import { MenuButton } from "../MenuButton.tsx";
 import { useNavigate } from "react-router";
 
 export const SidebarContent = () => {

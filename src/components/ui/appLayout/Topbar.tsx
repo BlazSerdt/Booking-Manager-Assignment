@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { Menu } from "primereact/menu";
-import { useAuth } from "../auth/auth";
-import { SearchBar } from "./SearchBar.tsx";
-import type { TopbarProps } from "../../types";
+import { useAuth } from "../../auth/auth.tsx";
+import { SearchBar } from "../SearchBar.tsx";
+import type { TopbarProps } from "../../../types";
 import { useNavigate } from "react-router";
 
 export const Topbar = ({ onSidebarToggle }: TopbarProps) => {

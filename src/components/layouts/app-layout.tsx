@@ -1,8 +1,8 @@
 import { Sidebar } from "primereact/sidebar";
-import { Topbar } from "../ui/Topbar";
+import { Topbar } from "../ui/appLayout/Topbar.tsx";
 import { useState } from "react";
 import type { AppLayoutProps } from "../../types";
-import {SidebarContent} from "../ui/SidebarContent.tsx";
+import {SidebarContent} from "../ui/appLayout/SidebarContent.tsx";
 
 export const AppLayout = ({ children }: AppLayoutProps) => {
   const [sidebarVisible, setSidebarVisible] = useState(false);

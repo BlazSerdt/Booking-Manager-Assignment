@@ -8,12 +8,24 @@ export type AppProviderProps = ChildrenProps;
 export type AuthProviderProps = ChildrenProps;
 export type AppLayoutProps = ChildrenProps;
 
-export interface TopbarProps {
+export type TopbarProps = {
   onSidebarToggle: () => void;
 }
 
 export interface ProtectedRouteProps extends ChildrenProps {
   roles?: Role[];
+}
+
+export type LocationDetailsTabContentProps = {
+  name: string;
+  address: string;
+  city: string;
+  country: string;
+  timezone: string;
+};
+
+export type QRTabProps = {
+  qrCodeValue: string;
 }
 
 export type Role = "super_admin" | "tenant_admin";
@@ -37,11 +49,3 @@ export interface Location {
   qrCodeValue: string;
   notes: string;
 }
-
-export type LocationDetailsTabContentProps = {
-  name: string;
-  address: string;
-  city: string;
-  country: string;
-  timezone: string;
-};
