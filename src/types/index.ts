@@ -26,6 +26,7 @@ export type LocationDetailsTabContentProps = {
 
 export type QRTabProps = {
   qrCodeValue: string;
+  locationName: string;
 }
 
 export type Role = "super_admin" | "tenant_admin";

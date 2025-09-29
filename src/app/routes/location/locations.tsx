@@ -129,9 +129,8 @@ const LocationsPage = () => {
 
   const actionTemplate = (location: Location) => (
     <div className="flex gap-2 items-center justify-center">
-      <Button icon="pi pi-pencil" rounded severity="warning" onClick={() => openEditDialog(location)} />
+      <Button icon="pi pi-pencil" rounded onClick={() => openEditDialog(location)} />
       <Button icon="pi pi-trash" rounded severity="danger" onClick={() => handleDelete(location)} />
-      <Button icon="pi pi-qrcode" rounded />
     </div>
   );
 

@@ -53,7 +53,7 @@ const LocationDetailsPage = () => {
                 </TabPanel>
 
                 <TabPanel header="QR Code" leftIcon="pi pi-qrcode mr-3">
-                  <QRTab qrCodeValue={location.qrCodeValue} />
+                  <QRTab qrCodeValue={location.qrCodeValue} locationName={location.name}/>
                 </TabPanel>
               </TabView>
             </div>

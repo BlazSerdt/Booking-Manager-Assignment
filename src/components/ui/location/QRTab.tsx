@@ -1,13 +1,27 @@
-import { QRCodeSVG } from "qrcode.react";
+import { QRCodeCanvas } from "qrcode.react";
 import { Divider } from "primereact/divider";
 import { Button } from "primereact/button";
-import type {QRTabProps} from "../../../types";
+import type { QRTabProps } from "../../../types";
+import { useRef } from "react";
 
-export const QRTab = ({ qrCodeValue }: QRTabProps) => {
+export const QRTab = ({ qrCodeValue, locationName }: QRTabProps) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const handleDownload = () => {
+    if (!canvasRef.current) return;
+
+    const url = canvasRef.current.toDataURL("image/png");
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = `${locationName}-QR.png`;
+    link.click();
+  };
+
   return (
     <div className="p-6 flex justify-center gap-8">
       <div className="flex flex-col items-center gap-4">
-        <QRCodeSVG value={qrCodeValue} size={200} />
+        <QRCodeCanvas ref={canvasRef} value={qrCodeValue} size={200} />
         <small className="text-center">
           Scan this QR code with your device.
         </small>
@@ -24,7 +38,7 @@ export const QRTab = ({ qrCodeValue }: QRTabProps) => {
         <Button
           label="Download QR"
           icon="pi pi-download"
-          onClick={() => {}}
+          onClick={handleDownload}
         />
       </div>
     </div>
