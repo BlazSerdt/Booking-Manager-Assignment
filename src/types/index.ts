@@ -25,3 +25,15 @@ export interface User {
   password: string;
   role: Role;
 }
+
+export interface Location {
+  id: string;
+  tenantId: string;
+  name: string;
+  address: string;
+  city: string;
+  country: string;
+  timezone: string;
+  qrCodeValue: string;
+  notes: string;
+}
