@@ -5,6 +5,7 @@ import DashboardPage from "./routes/app/dashboard";
 import NotFoundPage from "./routes/not-found.tsx";
 import { ProtectedRoute } from "../components/auth/ProtectedRoute.tsx";
 import LocationsPage from "./routes/app/locations.tsx";
+import LocationDetailsPage from "./routes/app/locationDetails.tsx";
 
 export const AppRouter = ()=> {
   return (
@@ -21,15 +22,25 @@ export const AppRouter = ()=> {
             </ProtectedRoute>
           }
         />
-        <Route
+        {/*<Route
           path="/app/locations"
           element={
-            /*<ProtectedRoute roles={["super_admin", "tenant_admin"]}>
+            <ProtectedRoute roles={["super_admin", "tenant_admin"]}>
               <LocationsPage />
-            </ProtectedRoute>*/
-            <LocationsPage />
+            </ProtectedRoute>
           }
         />
+        <Route
+          path="/app/locations/:id"
+          element={
+            <ProtectedRoute roles={["super_admin", "tenant_admin"]}>
+              <LocationDetailsPage />
+            </ProtectedRoute>
+          }
+        />*/}
+
+        <Route path="/app/locations" element={<LocationsPage />} />
+        <Route path="/app/locations/:id" element={<LocationDetailsPage />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

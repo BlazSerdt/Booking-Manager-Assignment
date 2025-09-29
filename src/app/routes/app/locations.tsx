@@ -1,6 +1,6 @@
 import { AppLayout } from "../../../components/layouts/app-layout.tsx";
 import {useEffect, useState} from "react";
-import { DataTable } from "primereact/datatable";
+import {DataTable, type DataTableRowClickEvent} from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import { SearchBar } from "../../../components/ui/SearchBar.tsx";
@@ -9,11 +9,13 @@ import {useAuth} from "../../../components/auth/auth.tsx";
 import type { Location } from "../../../types";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
+import { useNavigate } from "react-router";
 
 const LocationsPage = () => {
   const { user } = useAuth();
   const tenantId = user?.id;
   const toast = useRef<Toast>(null);
+  const navigate = useNavigate();
 
   const [locations, setLocations] = useState<Location[]>([]);
   const [globalFilter, setGlobalFilter] = useState<string | null>(null);
@@ -120,6 +122,11 @@ const LocationsPage = () => {
     }
   };
 
+  const handleRowClick = (event: DataTableRowClickEvent) => {
+    const location = event.data as Location;
+    navigate(`/app/locations/${location.id}`);
+  };
+
   const actionTemplate = (location: Location) => (
     <div className="flex gap-2 items-center justify-center">
       <Button icon="pi pi-pencil" rounded severity="warning" onClick={() => openEditDialog(location)} />
@@ -155,7 +162,9 @@ const LocationsPage = () => {
           rows={7}
           removableSort
           tableStyle={{ minWidth: "75rem" }}
-          className="rounded-lg overflow-hidden"
+          className="rounded-xl overflow-hidden cursor-pointer"
+          onRowClick={handleRowClick}
+          rowHover
         >
           <Column field="name" header="Name" sortable style={{ width: '16%' }} />
           <Column field="address" header="Address" style={{ width: '16%' }} />

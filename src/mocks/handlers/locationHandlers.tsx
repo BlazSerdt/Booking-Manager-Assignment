@@ -116,6 +116,18 @@ const locations: Location[] = [
 ];
 
 export const locationHandlers = [
+  // SELECT ONE
+  http.get("/api/locations/:id", ({ params }) => {
+    const { id } = params;
+    const location = locations.find((loc) => loc.id === id);
+
+    if (!location) {
+      return HttpResponse.json({ message: "Location not found" }, { status: 404 });
+    }
+
+    return HttpResponse.json(location, { status: 200 });
+  }),
+
   // SELECT ALL
   http.get("/api/locations", ({ request }) => {
     const url = new URL(request.url);
@@ -127,8 +139,6 @@ export const locationHandlers = [
         { status: 400 }
       );
     }
-
-    console.log(locations)
 
     const tenantLocations = locations.filter(locs => locs.tenantId === tenantId);
     return HttpResponse.json(tenantLocations, { status: 200 });

@@ -37,3 +37,11 @@ export interface Location {
   qrCodeValue: string;
   notes: string;
 }
+
+export type LocationDetailsTabContentProps = {
+  name: string;
+  address: string;
+  city: string;
+  country: string;
+  timezone: string;
+};
