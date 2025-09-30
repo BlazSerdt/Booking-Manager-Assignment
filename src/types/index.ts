@@ -50,6 +50,14 @@ export interface ReservationFormDialogProps {
   onSave: (data: ReservationFormData) => void;
 }
 
+export interface StatCardProps {
+  title: string;
+  value: number | string;
+  icon: string;
+  iconColor?: string;
+  iconBg?: string;
+}
+
 export type Role = "super_admin" | "tenant_admin";
 
 export interface User {

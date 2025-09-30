@@ -220,6 +220,12 @@ export const ReservationTable = ({ locationId }: ReservationTableProps) => {
       ? reservations.filter((res) => res.status === statusFilter)
       : reservations;
 
+  const emptyResMessage = (
+    <div className="flex justify-center items-center h-12">
+      No reservations available
+    </div>
+  );
+
   return (
     <>
       <Toast ref={toast} />
@@ -232,6 +238,7 @@ export const ReservationTable = ({ locationId }: ReservationTableProps) => {
         globalFilter={globalFilter}
         tableStyle={{ minWidth: "65rem" }}
         rowHover
+        emptyMessage={emptyResMessage}
       >
         <Column field="guestName" header="Guest Name"/>
         <Column field="guestPhone" header="Phone" />

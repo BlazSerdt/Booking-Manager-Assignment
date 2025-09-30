@@ -149,6 +149,12 @@ const LocationsPage = () => {
     </div>
   );
 
+  const emptyLocMessage = (
+    <div className="flex justify-center items-center h-12">
+      No locations available
+    </div>
+  );
+
   return (
     <AppLayout>
       <Card>
@@ -164,6 +170,7 @@ const LocationsPage = () => {
           className="cursor-pointer"
           onRowClick={handleRowClick}
           rowHover
+          emptyMessage={emptyLocMessage}
         >
           <Column field="name" header="Name" style={{ width: '16%' }} />
           <Column field="address" header="Address" style={{ width: '16%' }} />

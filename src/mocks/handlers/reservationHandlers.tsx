@@ -319,5 +319,22 @@ export const reservationHandlers = [
 
     reservations.splice(index, 1);
     return HttpResponse.json({ message: "Reservation deleted" }, { status: 200 });
-  })
+  }),
+
+  // gets all reservations for certain tenantId
+  http.get("/api/reservations/all", ({ request }) => {
+    const url = new URL(request.url);
+    const tenantId = url.searchParams.get("tenantId");
+
+    if (!tenantId) {
+      return HttpResponse.json(
+        { message: "Missing tenantId" },
+        { status: 400 }
+      );
+    }
+
+    const filtered = reservations.filter((res) => res.tenantId === tenantId);
+
+    return HttpResponse.json(filtered, { status: 200 });
+  }),
 ]
