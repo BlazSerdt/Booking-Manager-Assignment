@@ -136,7 +136,7 @@ const LoginPage = () => {
             />
             <label htmlFor="remember">Remember me</label>
           </div>
-          <a href="#" className="text-[#5472d4] hover:underline">Forgot password?</a>
+          <a href="/forgot-password" className="text-[#5472d4] hover:underline">Forgot password?</a>
         </div>
         <div className="flex flex-col w-full gap-3 items-center">
           <Button

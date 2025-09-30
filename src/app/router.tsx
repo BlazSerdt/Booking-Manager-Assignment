@@ -6,6 +6,7 @@ import NotFoundPage from "./routes/not-found.tsx";
 import { ProtectedRoute } from "../components/auth/ProtectedRoute.tsx";
 import LocationsPage from "./routes/location/locations.tsx";
 import LocationDetailsPage from "./routes/location/locationDetails.tsx";
+import ForgotPasswordPage from "./routes/auth/forgot-password.tsx";
 
 export const AppRouter = ()=> {
   return (
@@ -15,6 +16,7 @@ export const AppRouter = ()=> {
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage/> } />
 
         <Route
           path="/app/dashboard"
