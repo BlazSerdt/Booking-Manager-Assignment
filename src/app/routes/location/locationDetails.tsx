@@ -50,7 +50,7 @@ const LocationDetailsPage = () => {
                 </TabPanel>
 
                 <TabPanel header="Reservations" leftIcon="pi pi-calendar mr-3">
-                  <ReservationTable />
+                  <ReservationTable locationId={location.id}/>
                 </TabPanel>
 
                 <TabPanel header="QR Code" leftIcon="pi pi-qrcode mr-3">

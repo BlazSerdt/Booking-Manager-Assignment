@@ -4,7 +4,7 @@ import type { Location } from "../../types";
 
 const locations: Location[] = [
   {
-    id: uuid(),
+    id: "stanovanje_id",
     tenantId: "tenant_admin",
     name: "Stanovanje",
     address: "Slovenska ulica 4",

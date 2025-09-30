@@ -25,6 +25,9 @@ export interface LocationFormDialogProps {
   onSave: (data: LocationFormData) => void;
 }
 
+export type ReservationTableProps = {
+  locationId: string;
+};
 
 export type LocationDetailsTabContentProps = {
   name: string;
