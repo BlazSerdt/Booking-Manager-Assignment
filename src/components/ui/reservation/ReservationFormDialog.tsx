@@ -8,6 +8,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {useEffect} from "react";
 import type { ReservationFormDialogProps } from "../../../types";
+import {Dropdown} from "primereact/dropdown";
 
 const reservationSchema = z.object({
   guestName: z.string().min(1, "Guest name is required"),
@@ -30,6 +31,9 @@ const reservationSchema = z.object({
   }, {
     message: "Check-out cannot be a past date",
   }),
+  status: z
+    .enum(["Booked", "Checked in", "Checked out", "Cancelled"])
+    .optional(),
 })
   .refine((data) => data.checkOut > data.checkIn, {
     message: "Check-out must be after check-in",
@@ -47,6 +51,7 @@ export const ReservationFormDialog = ({ visible, onHide, initialReservation, onS
       guestEmail: "",
       checkIn: new Date(),
       checkOut: new Date(),
+      status: "Booked",
     },
   })
 
@@ -62,8 +67,16 @@ export const ReservationFormDialog = ({ visible, onHide, initialReservation, onS
       guestEmail: "",
       checkIn: new Date(),
       checkOut: new Date(),
+      status: "Booked",
     });
   }, [initialReservation, visible, reset]);
+
+  const statusOptions = [
+    { label: "Booked", value: "Booked" },
+    { label: "Checked in", value: "Checked in" },
+    { label: "Checked out", value: "Checked out" },
+    { label: "Cancelled", value: "Cancelled" },
+  ];
 
   const footer = (
     <div className="flex justify-end gap-2 mt-2">
@@ -212,6 +225,23 @@ export const ReservationFormDialog = ({ visible, onHide, initialReservation, onS
             )}
           />
         </div>
+
+        {initialReservation && (
+          <div className="flex flex-col gap-2 mb-4">
+            <label className="font-semibold">Status</label>
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <Dropdown
+                  {...field}
+                  options={statusOptions}
+                  placeholder="Select status"
+                />
+              )}
+            />
+          </div>
+        )}
       </form>
     </Dialog>
   );

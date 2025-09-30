@@ -147,13 +147,13 @@ export const locationHandlers = [
   // CREATE
   http.post("/api/locations", async ({ request }) => {
     const body = (await request.json()) as {
-      tenantId: string;
-      name: string;
-      address: string;
-      city: string;
-      country: string;
-      timezone: string;
-      notes: string;
+      tenantId: string,
+      name: string,
+      address: string,
+      city: string,
+      country: string,
+      timezone: string,
+      notes: string,
     };
 
     if (!body.tenantId || !body.name || !body.address || !body.city || !body.country || !body.timezone) {
@@ -177,10 +177,7 @@ export const locationHandlers = [
 
     locations.push(newLocation);
 
-    return HttpResponse.json(
-      { newLocation },
-      { status: 201 }
-    );
+    return HttpResponse.json({ newLocation }, { status: 201 });
   }),
 
   // UPDATE

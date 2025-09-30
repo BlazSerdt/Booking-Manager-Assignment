@@ -77,11 +77,10 @@ const LocationsPage = () => {
   const handleEdit = async (loc: LocationFormData) => {
     if (!selectedLocation) return;
     try {
-      const body = { tenantId: tenantId, ...loc};
       const response = await fetch(`/api/locations/${selectedLocation.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify(loc),
       });
 
       if (!response.ok)

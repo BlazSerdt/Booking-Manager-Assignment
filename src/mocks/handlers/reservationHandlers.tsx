@@ -80,24 +80,87 @@ export const reservationHandlers = [
 
     return HttpResponse.json(filtered, { status: 200 });
   }),
+
+  // CREATE
+  http.post("/api/reservations", async ({ request }) => {
+    const body = (await request.json()) as {
+      tenantId: string,
+      locationId: string,
+      guestName: string,
+      guestPhone: string,
+      guestEmail: string,
+      checkIn: string,
+      checkOut: string,
+    };
+
+    if (!body.tenantId || !body.locationId || !body.guestName || !body.guestPhone || !body.guestEmail || !body.checkIn || !body.checkOut) {
+      return HttpResponse.json(
+        { message: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    const newReservation: Reservation = {
+      id: uuid(),
+      tenantId: body.tenantId,
+      locationId: body.locationId,
+      guestName: body.guestName,
+      guestPhone: body.guestPhone,
+      guestEmail: body.guestEmail,
+      checkIn: new Date(body.checkIn),
+      checkOut: new Date(body.checkOut),
+      status: "Booked",
+    };
+
+    console.log(newReservation);
+    reservations.push(newReservation);
+
+    return HttpResponse.json({ newReservation }, { status: 201 });
+  }),
+
+  // UPDATE
+  http.put("/api/reservations/:id", async ({ params, request }) => {
+    const { id } = params;
+    const body = (await request.json()) as {
+      guestName: string,
+      guestPhone: string,
+      guestEmail: string,
+      checkIn: string,
+      checkOut: string,
+      status: "Booked" | "Checked in" | "Checked out" | "Cancelled";
+    };
+
+    const index = reservations.findIndex(res => res.id === id);
+    if (index === -1) {
+      return HttpResponse.json(
+        { message: "Reservation not found" },
+        { status: 404 }
+      );
+    }
+
+    reservations[index].guestName = body.guestName;
+    reservations[index].guestPhone = body.guestPhone;
+    reservations[index].guestEmail = body.guestEmail;
+    reservations[index].checkIn = new Date(body.checkIn);
+    reservations[index].checkOut = new Date(body.checkOut);
+    reservations[index].status = body.status;
+
+    return HttpResponse.json(reservations[index], { status: 200 });
+  }),
+
+  // DELETE
+  http.delete("/api/reservations/:id", async ({ params }) => {
+    const { id } = params;
+    const index = reservations.findIndex(res => res.id === id);
+
+    if (index === -1) {
+      return HttpResponse.json(
+        { message: "Reservation not found" },
+        { status: 404 }
+      );
+    }
+
+    reservations.splice(index, 1);
+    return HttpResponse.json({ message: "Reservation deleted" }, { status: 200 });
+  })
 ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
