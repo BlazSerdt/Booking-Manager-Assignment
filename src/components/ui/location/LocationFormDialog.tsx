@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { LocationFormDialogProps } from "../../../types";
 
 const locationSchema = z.object({
   name: z.string().refine(val => val.trim().length > 0, "Location name is required"),
@@ -18,13 +19,6 @@ const locationSchema = z.object({
 });
 
 export type LocationFormData = z.infer<typeof locationSchema>;
-
-interface LocationFormDialogProps {
-  visible: boolean;
-  onHide: () => void;
-  initialLocation?: LocationFormData; // used if opened for editing
-  onSave: (data: LocationFormData) => void;
-}
 
 export const LocationFormDialog = ({visible, onHide, initialLocation, onSave}: LocationFormDialogProps) => {
   const { control, handleSubmit, reset, formState: { errors }, } = useForm<LocationFormData>({
