@@ -89,7 +89,7 @@ export const LocationFormDialog = ({visible, onHide, initialLocation, onSave}: L
       header={initialLocation ? "Edit Location" : "New Location"}
       visible={visible}
       onHide={onHide}
-      style={{ width: "50vw" }}
+      className="w-[75vw] lg:w-[50vw]"
       footer={footer}
       modal
     >

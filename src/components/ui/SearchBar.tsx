@@ -9,7 +9,7 @@ interface SearchBarProps {
 
 export const SearchBar = ({ onInput }: SearchBarProps) => {
   return (
-    <IconField iconPosition="left" className="mr-1 max-w-64">
+    <IconField iconPosition="left" className="mr-1 max-w-64 hidden lg:flex">
       <InputIcon className="pi pi-search"> </InputIcon>
       <InputText placeholder="Search" onInput={onInput}  />
     </IconField>

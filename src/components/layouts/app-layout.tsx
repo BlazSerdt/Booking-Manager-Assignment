@@ -8,7 +8,10 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-gray-50">
+    <div
+      className="flex flex-col min-h-screen w-full"
+      style={{ backgroundColor: "var(--surface-50)" }}
+    >
       <Topbar onSidebarToggle={() => setSidebarVisible(true)} />
 
       <Sidebar visible={sidebarVisible} onHide={() => setSidebarVisible(false)}>

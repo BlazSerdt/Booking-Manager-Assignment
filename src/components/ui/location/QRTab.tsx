@@ -19,19 +19,21 @@ export const QRTab = ({ qrCodeValue, locationName }: QRTabProps) => {
   };
 
   return (
-    <div className="p-6 flex justify-center gap-8">
+    <div className="p-6 flex flex-col sm:flex-row justify-center gap-8">
       <div className="flex flex-col items-center gap-4">
         <QRCodeCanvas ref={canvasRef} value={qrCodeValue} size={200} />
-        <small className="text-center">
+        <small className="text-center hidden sm:flex">
           Scan this QR code with your device.
         </small>
       </div>
 
-      <Divider layout="vertical" />
+      <div className="hidden md:flex">
+        <Divider layout="vertical" />
+      </div>
 
-      <div className="flex flex-col gap-2 max-w-[300px]">
-        <h3 className="text-lg font-semibold">Share Your Location</h3>
-        <p className="text-justify mb-4">
+      <div className="flex justify-center sm:justify-start sm:flex-col gap-2 sm:max-w-[300px]">
+        <h3 className="text-lg font-semibold hidden sm:flex">Share Your Location</h3>
+        <p className="text-justify mb-4 hidden sm:flex">
           You can scan the QR code with your mobile device to quickly access this location,
           or download it to share or print.
         </p>

@@ -11,7 +11,7 @@ export const AuthLayout = ({ title, description, children }: AuthLayoutProps) =>
   return (
     <div
       className="flex min-h-screen items-center justify-center w-full"
-      style={{ backgroundColor: "var(--surface-ground)" }}
+      style={{ backgroundColor: "var(--surface-50)" }}
     >
       <div className="flex flex-col rounded-4xl shadow-md px-14 py-12 bg-white gap-7 w-full max-w-md">
         <div className="flex flex-col items-center justify-center w-full gap-7">

@@ -7,7 +7,7 @@ import { Divider } from "primereact/divider";
 import { LocationDetailsTabContent } from "../../../components/ui/location/LocationDetailsTabContent.tsx";
 import { LocationDetailsTabSkeleton } from "../../../components/ui/location/LocationDetailsTabSkeleton.tsx";
 import { QRTab } from "../../../components/ui/location/QRTab.tsx";
-import {ReservationTable} from "../../../components/ui/reservation/ReservationTable.tsx";
+import { ReservationTable } from "../../../components/ui/reservation/ReservationTable.tsx";
 
 const LocationDetailsPage = () => {
   const { id } = useParams<{ id: string }>();

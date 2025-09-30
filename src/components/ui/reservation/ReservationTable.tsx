@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { type ReservationFormData, ReservationFormDialog } from "./ReservationFormDialog.tsx";
 import { useAuth } from "../../auth/auth.tsx";
 import { Toast } from "primereact/toast";
+import {Dropdown} from "primereact/dropdown";
 
 export const ReservationTable = ({ locationId }: ReservationTableProps) => {
   const { user } = useAuth();
@@ -17,6 +18,8 @@ export const ReservationTable = ({ locationId }: ReservationTableProps) => {
   const [createDialogVisible, setCreateDialogVisible] = useState(false);
   const [editDialogVisible, setEditDialogVisible] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
+  const [globalFilter, setGlobalFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   // needed to convert from iso string format (from json) to date object
   const parseReservation = (res: Reservation): Reservation => ({
@@ -138,13 +141,35 @@ export const ReservationTable = ({ locationId }: ReservationTableProps) => {
     <div className="flex justify-between items-center">
       <h3 className="text-lg font-semibold">Manage Reservations</h3>
       <div className="flex gap-2 items-center justify-center">
-        <SearchBar />
+        <SearchBar onInput={(e) => setGlobalFilter(e.target.value)} />
+        <div className="hidden xl:block">
+          <Dropdown
+            value={statusFilter}
+            options={[
+              { label: "All", value: "All" },
+              { label: "Booked", value: "Booked" },
+              { label: "Checked in", value: "Checked in" },
+              { label: "Checked out", value: "Checked out" },
+              { label: "Cancelled", value: "Cancelled" },
+            ]}
+            onChange={(e) => setStatusFilter(e.value)}
+            placeholder="Filter by Status"
+            className="w-48"
+          />
+        </div>
         <Button
-          icon="pi pi-plus-circle"
-          label="New reservation"
           severity="success"
           onClick={() => setCreateDialogVisible(true)}
-        />
+        >
+          <div className="flex sm:hidden items-center gap-2 font-semibold">
+            <i className="pi pi-plus-circle"></i>
+            <span>New</span>
+          </div>
+          <div className="hidden sm:flex items-center gap-2 font-semibold">
+            <i className="pi pi-plus-circle"></i>
+            <span>New reservation</span>
+          </div>
+        </Button>
       </div>
     </div>
   );
@@ -190,15 +215,23 @@ export const ReservationTable = ({ locationId }: ReservationTableProps) => {
     </div>
   );
 
+  const filteredReservations =
+    statusFilter && statusFilter !== "All"
+      ? reservations.filter((res) => res.status === statusFilter)
+      : reservations;
+
   return (
     <>
       <Toast ref={toast} />
       <DataTable
-        value={reservations}
+        value={filteredReservations}
         paginator
         rows={7}
         header={tableHeader}
         className="rounded-xl overflow-hidden"
+        globalFilter={globalFilter}
+        tableStyle={{ minWidth: "65rem" }}
+        rowHover
       >
         <Column field="guestName" header="Guest Name"/>
         <Column field="guestPhone" header="Phone" />
