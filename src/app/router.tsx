@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./routes/auth/login";
 import RegisterPage from "./routes/auth/register";
 import DashboardPage from "./routes/dashboard.tsx";
@@ -11,6 +11,8 @@ export const AppRouter = ()=> {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
@@ -22,7 +24,7 @@ export const AppRouter = ()=> {
             </ProtectedRoute>
           }
         />
-        {/*<Route
+        <Route
           path="/app/locations"
           element={
             <ProtectedRoute roles={["super_admin", "tenant_admin"]}>
@@ -37,10 +39,7 @@ export const AppRouter = ()=> {
               <LocationDetailsPage />
             </ProtectedRoute>
           }
-        />*/}
-
-        <Route path="/app/locations" element={<LocationsPage />} />
-        <Route path="/app/locations/:id" element={<LocationDetailsPage />} />
+        />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

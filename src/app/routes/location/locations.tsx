@@ -10,6 +10,7 @@ import type { Location } from "../../../types";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { useNavigate } from "react-router";
+import {Card} from "primereact/card";
 
 const LocationsPage = () => {
   const { user } = useAuth();
@@ -150,41 +151,44 @@ const LocationsPage = () => {
 
   return (
     <AppLayout>
-      <Toast ref={toast} />
-      <DataTable
-        value={locations}
-        header={tableHeader}
-        globalFilter={globalFilter}
-        paginator
-        rows={7}
-        removableSort
-        tableStyle={{ minWidth: "75rem" }}
-        className="rounded-xl overflow-hidden cursor-pointer"
-        onRowClick={handleRowClick}
-        rowHover
-      >
-        <Column field="name" header="Name" style={{ width: '16%' }} />
-        <Column field="address" header="Address" style={{ width: '16%' }} />
-        <Column field="city" header="City" sortable style={{ width: '16%' }} />
-        <Column field="country" header="Country" sortable style={{ width: '16%' }} />
-        <Column field="timezone" header="Timezone" style={{ width: '16%' }} />
-        <Column header="Actions" body={actionTemplate} alignHeader="center" align="center"/>
-      </DataTable>
+      <Card>
+        <Toast ref={toast} />
+        <DataTable
+          value={locations}
+          header={tableHeader}
+          globalFilter={globalFilter}
+          paginator
+          rows={7}
+          removableSort
+          tableStyle={{ minWidth: "75rem" }}
+          className="cursor-pointer"
+          onRowClick={handleRowClick}
+          rowHover
+        >
+          <Column field="name" header="Name" style={{ width: '16%' }} />
+          <Column field="address" header="Address" style={{ width: '16%' }} />
+          <Column field="city" header="City" sortable style={{ width: '16%' }} />
+          <Column field="country" header="Country" sortable style={{ width: '16%' }} />
+          <Column field="timezone" header="Timezone" style={{ width: '16%' }} />
+          <Column header="Actions" body={actionTemplate} alignHeader="center" align="center"/>
+        </DataTable>
 
-      <LocationFormDialog
-        visible={createDialogVisible}
-        onHide={() => setCreateDialogVisible(false)}
-        onSave={handleCreate}
-      />
-
-      {selectedLocation && (
         <LocationFormDialog
-          visible={editDialogVisible}
-          initialLocation={selectedLocation}
-          onHide={() => setEditDialogVisible(false)}
-          onSave={handleEdit}
+          visible={createDialogVisible}
+          onHide={() => setCreateDialogVisible(false)}
+          onSave={handleCreate}
         />
-      )}
+
+        {selectedLocation && (
+          <LocationFormDialog
+            visible={editDialogVisible}
+            initialLocation={selectedLocation}
+            onHide={() => setEditDialogVisible(false)}
+            onSave={handleEdit}
+          />
+        )}
+      </Card>
+
     </AppLayout>
   );
 };

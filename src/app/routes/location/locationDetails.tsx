@@ -8,6 +8,7 @@ import { LocationDetailsTabContent } from "../../../components/ui/location/Locat
 import { LocationDetailsTabSkeleton } from "../../../components/ui/location/LocationDetailsTabSkeleton.tsx";
 import { QRTab } from "../../../components/ui/location/QRTab.tsx";
 import { ReservationTable } from "../../../components/ui/reservation/ReservationTable.tsx";
+import {Card} from "primereact/card";
 
 const LocationDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,36 +34,38 @@ const LocationDetailsPage = () => {
 
   return (
     <AppLayout>
-      {location ? (
-        <div className="w-full flex justify-center">
-          <div className="w-full bg-white shadow-md rounded-xl overflow-hidden">
-            <div className="px-8 mt-4">
-              <h2 className="text-xl font-semibold">{location.name}</h2>
-              <Divider />
-            </div>
+      <Card>
+        {location ? (
+          <div className="w-full flex justify-center">
+            <div className="w-full bg-white">
+              <div className="px-8 mt-4">
+                <h2 className="text-xl font-semibold">{location.name}</h2>
+                <Divider />
+              </div>
 
-            <div className="px-8">
-              <TabView>
-                <TabPanel header="Details" leftIcon="pi pi-info-circle mr-3">
-                  <div className="p-6">
-                    <LocationDetailsTabContent name={location.name} address={location.address} city={location.city} country={location.country} timezone={location.timezone} notes={location.notes} />
-                  </div>
-                </TabPanel>
+              <div className="px-8">
+                <TabView>
+                  <TabPanel header="Details" leftIcon="pi pi-info-circle mr-3">
+                    <div className="p-6">
+                      <LocationDetailsTabContent name={location.name} address={location.address} city={location.city} country={location.country} timezone={location.timezone} notes={location.notes} />
+                    </div>
+                  </TabPanel>
 
-                <TabPanel header="Reservations" leftIcon="pi pi-calendar mr-3">
-                  <ReservationTable locationId={location.id}/>
-                </TabPanel>
+                  <TabPanel header="Reservations" leftIcon="pi pi-calendar mr-3">
+                    <ReservationTable locationId={location.id}/>
+                  </TabPanel>
 
-                <TabPanel header="QR Code" leftIcon="pi pi-qrcode mr-3">
-                  <QRTab qrCodeValue={location.qrCodeValue} locationName={location.name}/>
-                </TabPanel>
-              </TabView>
+                  <TabPanel header="QR Code" leftIcon="pi pi-qrcode mr-3">
+                    <QRTab qrCodeValue={location.qrCodeValue} locationName={location.name}/>
+                  </TabPanel>
+                </TabView>
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <LocationDetailsTabSkeleton />
-      )}
+        ) : (
+          <LocationDetailsTabSkeleton />
+        )}
+      </Card>
     </AppLayout>
   );
 };
