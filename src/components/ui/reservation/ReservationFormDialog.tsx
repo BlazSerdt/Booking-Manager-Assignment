@@ -83,11 +83,11 @@ export const ReservationFormDialog = ({ visible, onHide, initialReservation, onS
       <Button
         label="Cancel"
         icon="pi pi-times"
-        severity="danger"
         onClick={() => {
           reset(initialReservation || { guestName: "", guestPhone: "", guestEmail: "", checkIn: new Date(), checkOut: new Date(), });
           onHide();
         }}
+        outlined
       />
       <Button label="Save" icon="pi pi-check" onClick={handleSubmit(onSubmit)} />
     </div>

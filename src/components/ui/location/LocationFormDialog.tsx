@@ -8,6 +8,7 @@ import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { LocationFormDialogProps } from "../../../types";
+import {Divider} from "primereact/divider";
 
 const locationSchema = z.object({
   name: z.string().refine(val => val.trim().length > 0, "Location name is required"),
@@ -78,7 +79,7 @@ export const LocationFormDialog = ({visible, onHide, initialLocation, onSave}: L
           reset(initialLocation || { name: "", address: "", city: "", country: "", timezone: "", notes: "" });
           onHide();
         }}
-        severity="danger"
+        outlined
       />
       <Button label="Save" icon="pi pi-check" onClick={handleSubmit(onSubmit)} />
     </div>
@@ -93,12 +94,12 @@ export const LocationFormDialog = ({visible, onHide, initialLocation, onSave}: L
       footer={footer}
       modal
     >
-      <form className="flex flex-col gap-4" role="form" aria-label="Location form">
+      <form className="flex flex-col" role="form" aria-label="Location form">
         <Controller
           name="name"
           control={control}
           render={({ field }) => (
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col gap-0.5 mb-3">
               <div className="flex flex-col gap-2">
                 <label htmlFor="name" className="font-semibold">Name</label>
                 <InputText
@@ -114,103 +115,121 @@ export const LocationFormDialog = ({visible, onHide, initialLocation, onSave}: L
           )}
         />
 
-        <Controller
-          name="address"
-          control={control}
-          render={({ field }) => (
-            <div className="flex flex-col gap-0.5">
-              <div className="flex flex-col gap-2">
-                <label className="font-semibold">Address</label>
-                <InputText
-                  {...field}
-                  id="address"
-                  type="text"
-                  placeholder="Address"
-                  invalid={!!errors.address}
-                />
-              </div>
-              {errors.address && <small className="text-red-500">{errors.address.message}</small>}
-            </div>
-          )}
-        />
+        <Divider align="left">
+          <div className="flex items-center">
+            <i className="pi pi-map-marker mr-2"></i>
+            <p>Location details</p>
+          </div>
+        </Divider>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="flex flex-col gap-4">
           <Controller
-            name="city"
+            name="address"
             control={control}
             render={({ field }) => (
               <div className="flex flex-col gap-0.5">
                 <div className="flex flex-col gap-2">
-                  <label className="font-semibold">City</label>
+                  <label className="font-semibold">Address</label>
                   <InputText
                     {...field}
-                    id="city"
+                    id="address"
                     type="text"
-                    placeholder="City"
-                    invalid={!!errors.city}
+                    placeholder="Address"
+                    invalid={!!errors.address}
                   />
                 </div>
-                {errors.city && <small className="text-red-500">{errors.city.message}</small>}
+                {errors.address && <small className="text-red-500">{errors.address.message}</small>}
               </div>
             )}
           />
+
+          <div className="grid grid-cols-2 gap-4 mb-2">
+            <Controller
+              name="city"
+              control={control}
+              render={({ field }) => (
+                <div className="flex flex-col gap-0.5">
+                  <div className="flex flex-col gap-2">
+                    <label className="font-semibold">City</label>
+                    <InputText
+                      {...field}
+                      id="city"
+                      type="text"
+                      placeholder="City"
+                      invalid={!!errors.city}
+                    />
+                  </div>
+                  {errors.city && <small className="text-red-500">{errors.city.message}</small>}
+                </div>
+              )}
+            />
+            <Controller
+              name="country"
+              control={control}
+              render={({ field }) => (
+                <div className="flex flex-col gap-0.5">
+                  <div className="flex flex-col gap-2">
+                    <label className="font-semibold">Country</label>
+                    <InputText
+                      {...field}
+                      id="coutry"
+                      type="text"
+                      placeholder="Country"
+                      invalid={!!errors.country}
+                    />
+                  </div>
+                  {errors.country && <small className="text-red-500">{errors.country.message}</small>}
+                </div>
+              )}
+            />
+          </div>
+        </div>
+
+        <Divider align="left">
+          <div className="flex items-center">
+            <i className="pi pi-info-circle mr-2"></i>
+            <p>Other information</p>
+          </div>
+        </Divider>
+
+        <div className="flex flex-col gap-4">
           <Controller
-            name="country"
+            name="timezone"
             control={control}
             render={({ field }) => (
               <div className="flex flex-col gap-0.5">
                 <div className="flex flex-col gap-2">
-                  <label className="font-semibold">Country</label>
-                  <InputText
-                    {...field}
-                    id="coutry"
-                    type="text"
-                    placeholder="Country"
-                    invalid={!!errors.country}
+                  <label className="font-semibold">Timezone</label>
+                  <Dropdown
+                    id="timezone"
+                    placeholder="Select timezone"
+                    options={timezones}
+                    value={field.value}
+                    onChange={(e) => field.onChange(e.value)}
                   />
                 </div>
-                {errors.country && <small className="text-red-500">{errors.country.message}</small>}
+                {errors.timezone && <small className="text-red-500">{errors.timezone.message}</small>}
+              </div>
+            )}
+          />
+
+          <Controller
+            name="notes"
+            control={control}
+            render={({ field }) => (
+              <div className="flex flex-col gap-2">
+                <label className="font-semibold">Notes</label>
+                <InputTextarea
+                  id="notes"
+                  placeholder="Notes..."
+                  rows={4}
+                  autoResize={false}
+                  {...field}
+                />
               </div>
             )}
           />
         </div>
-
-        <Controller
-          name="timezone"
-          control={control}
-          render={({ field }) => (
-            <div className="flex flex-col gap-0.5">
-              <div className="flex flex-col gap-2">
-                <label className="font-semibold">Timezone</label>
-                <Dropdown
-                  id="timezone"
-                  placeholder="Select timezone"
-                  options={timezones}
-                  value={field.value}
-                  onChange={(e) => field.onChange(e.value)}
-                />
-              </div>
-              {errors.timezone && <small className="text-red-500">{errors.timezone.message}</small>}
-            </div>
-          )}
-        />
-
-        <Controller
-          name="notes"
-          control={control}
-          render={({ field }) => (
-            <div className="flex flex-col gap-2">
-              <label className="font-semibold">Notes</label>
-              <InputTextarea
-                id="notes"
-                placeholder="Notes..."
-                rows={4}
-                autoResize={false}
-                {...field}
-              />
-            </div>
-          )}
-        />
       </form>
     </Dialog>
   );
