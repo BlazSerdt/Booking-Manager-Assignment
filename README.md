@@ -1,73 +1,82 @@
-# React + TypeScript + Vite
+# Booking Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
+## About The Project
+Booking manager is a proof-of-concept frontend application built with React. This project was created as part of a
+job interview assignment to demonstrate frontend development knowledge.
 
-Currently, two official plugins are available:
+### Built With
+- **Frontend**: React + TypeScript
+- **UI Library**: PrimeReact
+- **Styling**: Tailwind CSS
+- **Mock API**: MSW (Mock Service Worker)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vite.dev/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
+[![typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Installation
+1. Clone the repository
+```bash
+  git clone https://github.com/BlazSerdt/Booking-Manager-Assignment
+  cd Booking-Manager-Assignment
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. Install dependencies
+```bash
+  npm install
 ```
+
+3. Start the development server
+```bash
+  npm start
+```
+
+4. Open the app in your browser at http://localhost:3000
+
+---
+## Features
+- **In Memory Storage And Mock API**
+  - Mock API, that handles frontend requests
+  - In memory storage, meaning data is lost upon refresh
+  - 3 seeded accounts: 1 super admin account, 2 tenant admin accounts
+  - Each account has some seeded data, to have more data to showcase different features
+- **Tenant Admin role**
+  - Can create locations and manage them
+  - Can create reservations per location and manage them
+- **Super Admin Role**
+  - Can view all locations and reservations from all users
+  - Cannot create, edit or delete locations/reservations
+- **User Authentication (Mocked)**
+  - Register and login functionality with mock authentication
+- **Location Management**
+  - View, add, edit and delete locations
+  - Clicking on location opens details page, which also contains reservations and QR code
+- **Reservation Management**
+  - View, add, edit and delete reservations, specific to location
+  - Available in location details
+- **Dashboard**
+  - Shows basic statistics, recent locations and recent reservations
+- **Chat (UI)**
+  - Chat interface with seeded contacts
+  - User can send messages, which get stored in memory and displayed
+
+---
+## Important
+
+> ⚠️  **SEEDED ACCOUNTS**
+> 1. **Tenant Admin 1**
+>    - Email: tenant_admin@mail.com
+>    - Password: tenantadmin
+
+> 2. **Tenant Admin 2**
+>    - Email: tenant_admin2@mail.com
+>    - Password: tenantadmin2
+
+> 3. **Super Admin**
+>    - Email: super_admin@mail.com
+>    - Password: superadmin
+>    - Read-only access to all locations & reservations
