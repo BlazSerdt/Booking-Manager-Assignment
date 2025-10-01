@@ -58,6 +58,11 @@ export interface StatCardProps {
   iconBg?: string;
 }
 
+export interface ChatUserCardProps {
+  name: string;
+  status: "online" | "offline" | "away";
+}
+
 export type Role = "super_admin" | "tenant_admin";
 
 export interface User {

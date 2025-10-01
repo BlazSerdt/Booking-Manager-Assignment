@@ -141,7 +141,7 @@ export const ReservationTable = ({ locationId }: ReservationTableProps) => {
     <div className="flex justify-between items-center">
       <h3 className="text-lg font-semibold">Manage Reservations</h3>
       <div className="flex gap-2 items-center justify-center">
-        <SearchBar onInput={(e) => setGlobalFilter(e.target.value)} />
+        <SearchBar onInput={(e) => setGlobalFilter((e.target as HTMLInputElement).value)} />
         <div className="hidden xl:block">
           <Dropdown
             value={statusFilter}

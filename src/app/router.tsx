@@ -7,6 +7,7 @@ import { ProtectedRoute } from "../components/auth/ProtectedRoute.tsx";
 import LocationsPage from "./routes/location/locations.tsx";
 import LocationDetailsPage from "./routes/location/locationDetails.tsx";
 import ForgotPasswordPage from "./routes/auth/forgot-password.tsx";
+import Chat from "./routes/chat/chat.tsx";
 
 export const AppRouter = ()=> {
   return (
@@ -42,6 +43,8 @@ export const AppRouter = ()=> {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/app/chat" element={<Chat />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

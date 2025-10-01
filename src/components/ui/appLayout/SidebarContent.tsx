@@ -23,7 +23,7 @@ export const SidebarContent = () => {
 
         <div>
           <h3 className="mb-2 text-black uppercase text-sm font-semibold">Communication</h3>
-          <MenuButton icon="pi pi-comments" label="Chat" />
+          <MenuButton icon="pi pi-comments" label="Chat" onClick={() => navigate("/app/chat")} />
         </div>
       </div>
 

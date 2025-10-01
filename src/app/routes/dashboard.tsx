@@ -6,8 +6,6 @@ import type { Reservation } from "../../types";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {Card} from "primereact/card";
-import {Timeline} from "primereact/timeline";
-import {Steps} from "primereact/steps";
 import {Divider} from "primereact/divider";
 
 const DashboardPage = () => {
