@@ -34,6 +34,11 @@ const Chat = () => {
   ];
 
   const [selectedUser, setSelectedUser] = useState<ChatUser>(users[0]);
+  const [searchInput, setSearchInput] = useState("");
+
+  const filteredUsers = users.filter((user) =>
+    user.name.toLowerCase().includes(searchInput.toLowerCase())
+  );
 
   useEffect(() => {
     setMessages([]);
@@ -54,8 +59,8 @@ const Chat = () => {
 
   return (
     <AppLayout>
-      <div className="grid grid-cols-5 gap-6 h-[85vh]">
-        <Card className="col-span-1 flex flex-col p-2">
+      <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
+        <Card className="col-span-5 xl:col-span-1 flex flex-col p-2 bg-transparent">
           <div className="flex flex-col items-center gap-4 mb-4">
             <Avatar icon="pi pi-user" size="xlarge" shape="circle" className="shadow-lg" />
             <p className="font-semibold text-xl">{user?.displayName ?? "User"}</p>
@@ -65,17 +70,17 @@ const Chat = () => {
 
           <IconField iconPosition="left" className="mb-4">
             <InputIcon className="pi pi-search"> </InputIcon>
-            <InputText placeholder="Search" />
+            <InputText placeholder="Search" value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
           </IconField>
 
           <UserList
-            users={users}
+            users={filteredUsers}
             selectedUser={selectedUser}
             onSelectUser={setSelectedUser}
           />
         </Card>
 
-        <Card className="col-span-4 flex flex-col px-2">
+        <Card className="col-span-5 xl:col-span-4 flex flex-col px-2 bg-transparent">
           <ChatHeader name={selectedUser.name} status={selectedUser.status} />
 
           <Divider />
@@ -90,7 +95,9 @@ const Chat = () => {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
             />
-            <Button label="Send" icon="pi pi-send" onClick={handleSend} />
+            <div>
+              <Button label="Send" icon="pi pi-send" onClick={handleSend} />
+            </div>
           </div>
         </Card>
       </div>

@@ -43,8 +43,14 @@ export const AppRouter = ()=> {
             </ProtectedRoute>
           }
         />
-
-        <Route path="/app/chat" element={<Chat />} />
+        <Route
+          path="/app/chat"
+          element={
+            <ProtectedRoute roles={["super_admin", "tenant_admin"]}>
+              <Chat />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
