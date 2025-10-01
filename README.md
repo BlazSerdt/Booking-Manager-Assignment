@@ -1,5 +1,11 @@
 # Booking Manager
 
+## Table Of Contents
+- [About The Project](#about-the-project)
+- [Installation](#installation)
+- [Features](#features)
+- [Important](#important)
+
 ## About The Project
 Booking manager is a proof-of-concept frontend application built with React. This project was created as part of a
 job interview assignment to demonstrate frontend development knowledge.
@@ -29,7 +35,7 @@ job interview assignment to demonstrate frontend development knowledge.
 
 3. Start the development server
 ```bash
-  npm start
+  npm run dev
 ```
 
 4. Open the app in your browser at http://localhost:3000
