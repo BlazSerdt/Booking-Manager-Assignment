@@ -60,7 +60,7 @@ export interface StatCardProps {
 
 export interface ChatUserProps {
   name: string;
-  status: "online" | "offline" | "away";
+  status?: "online" | "offline" | "away";
 }
 
 export interface InitialsAvatarProps extends ChatUserProps {
@@ -82,6 +82,12 @@ export interface UserListProps {
   users: ChatUser[];
   selectedUser: ChatUser | null;
   onSelectUser: (user: ChatUser) => void;
+}
+
+export interface ChatMessageProps {
+  userName: string;
+  text: string;
+  time: string;
 }
 
 export type Role = "super_admin" | "tenant_admin";
