@@ -7,14 +7,17 @@ import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
 import { IconField } from "primereact/iconfield";
 import ChatHeader from "../../../components/ui/chat/ChatHeader.tsx";
-import { useState } from "react";
-import type { ChatUser } from "../../../types";
+import { useEffect, useState } from "react";
+import type { ChatUser, Message } from "../../../types";
 import UserList from "../../../components/ui/chat/UserList.tsx";
-import ChatMessage from "../../../components/ui/chat/ChatMessage.tsx";
-import UserChatMessage from "../../../components/ui/chat/UserChatMessage.tsx";
+import { Button } from "primereact/button";
+import MessagesContainer from "../../../components/ui/chat/MessagesContainer.tsx";
 
 const Chat = () => {
   const { user } = useAuth();
+
+  const [inputValue, setInputValue] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const users: ChatUser[] = [
     { name: "John Smith", status: "online" },
@@ -31,6 +34,23 @@ const Chat = () => {
   ];
 
   const [selectedUser, setSelectedUser] = useState<ChatUser>(users[0]);
+
+  useEffect(() => {
+    setMessages([]);
+  }, [selectedUser]);
+
+  const handleSend = () => {
+    if (!inputValue.trim()) return;
+
+    const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+    setMessages([
+      ...messages,
+      { text: inputValue, time },
+    ]);
+
+    setInputValue("");
+  };
 
   return (
     <AppLayout>
@@ -60,11 +80,17 @@ const Chat = () => {
 
           <Divider />
 
-          <div className="flex flex-col px-2 pt-2 gap-4">
-            <ChatMessage userName={selectedUser.name} text="Hello this is a message" time="12:30" />
-            <ChatMessage userName={selectedUser.name} text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." time="12:32" />
-            <UserChatMessage text="This is a message from the user" time="12:40" />
-            <UserChatMessage text="This is a second message from the user. Lorem ipsum dolor sit amet, consectetur adipiscing elit." time="12:40" />
+          <MessagesContainer selectedUser={selectedUser} messages={messages} />
+
+          <Divider />
+
+          <div className="flex items-center gap-4 pt-4">
+            <InputText
+              placeholder="Type your message..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+            <Button label="Send" icon="pi pi-send" onClick={handleSend} />
           </div>
         </Card>
       </div>

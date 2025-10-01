@@ -90,7 +90,17 @@ export interface ChatMessageProps {
   time: string;
 }
 
-export interface UserChatMessageProps extends Omit<ChatMessageProps, "userName"> {}
+export type UserChatMessageProps = Omit<ChatMessageProps, "userName">
+
+export interface Message {
+  text: string;
+  time: string;
+}
+
+export interface MessagesContainerProps {
+  selectedUser: ChatUser;
+  messages: Message[];
+}
 
 export type Role = "super_admin" | "tenant_admin";
 
