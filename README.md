@@ -1,6 +1,5 @@
 # Booking Manager
 
----
 ## About The Project
 Booking manager is a proof-of-concept frontend application built with React. This project was created as part of a
 job interview assignment to demonstrate frontend development knowledge.
@@ -15,8 +14,6 @@ job interview assignment to demonstrate frontend development knowledge.
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
 [![typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-
----
 
 ## Installation
 1. Clone the repository
@@ -37,7 +34,6 @@ job interview assignment to demonstrate frontend development knowledge.
 
 4. Open the app in your browser at http://localhost:3000
 
----
 ## Features
 - **In Memory Storage And Mock API**
   - Mock API, that handles frontend requests
@@ -64,7 +60,6 @@ job interview assignment to demonstrate frontend development knowledge.
   - Chat interface with seeded contacts
   - User can send messages, which get stored in memory and displayed
 
----
 ## Important
 
 > ⚠️  **SEEDED ACCOUNTS**
