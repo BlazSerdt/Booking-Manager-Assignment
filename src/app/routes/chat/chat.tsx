@@ -11,6 +11,7 @@ import { useState } from "react";
 import type { ChatUser } from "../../../types";
 import UserList from "../../../components/ui/chat/UserList.tsx";
 import ChatMessage from "../../../components/ui/chat/ChatMessage.tsx";
+import UserChatMessage from "../../../components/ui/chat/UserChatMessage.tsx";
 
 const Chat = () => {
   const { user } = useAuth();
@@ -60,8 +61,10 @@ const Chat = () => {
           <Divider />
 
           <div className="flex flex-col px-2 pt-2 gap-4">
-            <ChatMessage userName={selectedUser.name} text="Hello this is a message." time="12:30" />
+            <ChatMessage userName={selectedUser.name} text="Hello this is a message" time="12:30" />
             <ChatMessage userName={selectedUser.name} text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." time="12:32" />
+            <UserChatMessage text="This is a message from the user" time="12:40" />
+            <UserChatMessage text="This is a second message from the user. Lorem ipsum dolor sit amet, consectetur adipiscing elit." time="12:40" />
           </div>
         </Card>
       </div>

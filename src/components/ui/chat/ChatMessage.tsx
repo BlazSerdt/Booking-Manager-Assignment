@@ -5,7 +5,7 @@ const ChatMessage = ({ userName, text, time }: ChatMessageProps) => {
   return (
     <div className="flex flex-col max-w-[50%]">
       <div className="flex items-center gap-3">
-        <InitialsAvatar name={userName} size="large" status="online" />
+        <InitialsAvatar name={userName} size="large"/>
         <div>
           <p className="font-semibold">{userName}</p>
         </div>
