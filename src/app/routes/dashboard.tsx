@@ -79,8 +79,8 @@ const DashboardPage = () => {
     <AppLayout>
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-          <StatCard title="Total locations" value={stats.totalLocations} icon="pi pi-map-marker" iconColor="text-purple-500" iconBg="bg-purple-100" />
-          <StatCard title="Total reservations" value={stats.totalReservations} icon="pi pi-calendar" iconColor="text-orange-500" iconBg="bg-orange-100" />
+          <StatCard title={user?.role === "super_admin" ? "All locations" : "Total locations"} value={stats.totalLocations} icon="pi pi-map-marker" iconColor="text-purple-500" iconBg="bg-purple-100" />
+          <StatCard title={user?.role === "super_admin" ? "All reservations" : "Total reservations"} value={stats.totalReservations} icon="pi pi-calendar" iconColor="text-orange-500" iconBg="bg-orange-100" />
           <StatCard title="Booked reservations" value={stats.bookedReservations} icon="pi pi-check-circle" iconColor="text-green-500" iconBg="bg-green-100" />
           <StatCard title="Cancelled reservations" value={stats.cancelledReservations} icon="pi pi-times-circle" iconColor="text-red-500" iconBg="bg-red-100" />
         </div>

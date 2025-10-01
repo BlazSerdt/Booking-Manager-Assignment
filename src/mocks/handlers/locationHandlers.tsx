@@ -69,6 +69,39 @@ export const locations: Location[] = [
     qrCodeValue: "QR-Sydney-Harbour-56 Harbour Road-Sydney",
     notes: "Apartment with stunning views of Sydney Harbour.",
   },
+  {
+    id: uuid(),
+    tenantId: "tenant_admin2",
+    name: "Lakeview Cottage",
+    address: "12 Lake Street",
+    city: "Vancouver",
+    country: "Canada",
+    timezone: "Pacific/US",
+    qrCodeValue: "QR-Lakeview-Cottage-12 Lake Street-Vancouver",
+    notes: "Peaceful cottage with lake view.",
+  },
+  {
+    id: uuid(),
+    tenantId: "tenant_admin2",
+    name: "Downtown Loft",
+    address: "34 Central Ave",
+    city: "Berlin",
+    country: "Germany",
+    timezone: "Berlin/Germany",
+    qrCodeValue: "QR-Downtown-Loft-34 Central Ave-Berlin",
+    notes: "Modern loft in the city center.",
+  },
+  {
+    id: uuid(),
+    tenantId: "tenant_admin2",
+    name: "Beachside Bungalow",
+    address: "56 Coral Way",
+    city: "Sydney",
+    country: "Australia",
+    timezone: "Sydney/Australia",
+    qrCodeValue: "QR-Beachside-Bungalow-56 Coral Way-Sydney",
+    notes: "Relaxing bungalow right on the beach.",
+  },
 ];
 
 export const locationHandlers = [
@@ -94,6 +127,11 @@ export const locationHandlers = [
         { message: "Missing tenantId" },
         { status: 400 }
       );
+    }
+
+    // if user is super admin, they can access all locations
+    if (tenantId === "super_admin") {
+      return HttpResponse.json(locations, { status: 200 });
     }
 
     const tenantLocations = locations.filter(locs => locs.tenantId === tenantId);

@@ -14,6 +14,7 @@ import {Card} from "primereact/card";
 
 const LocationsPage = () => {
   const { user } = useAuth();
+  const isSuperAdmin = user?.role === "super_admin";
   const tenantId = user?.id;
   const toast = useRef<Toast>(null);
   const navigate = useNavigate();
@@ -46,12 +47,14 @@ const LocationsPage = () => {
   }, [tenantId]);
 
   const openEditDialog = (loc: Location) => {
-    setSelectedLocation(loc);
-    setEditDialogVisible(true);
+    if(!isSuperAdmin){
+      setSelectedLocation(loc);
+      setEditDialogVisible(true);
+    }
   };
 
   const handleCreate = async (loc: LocationFormData) => {
-    if (!tenantId) return;
+    if (!tenantId || isSuperAdmin) return;
     try {
       const body = { tenantId: tenantId, ...loc};
       const response = await fetch("/api/locations", {
@@ -76,7 +79,7 @@ const LocationsPage = () => {
   };
 
   const handleEdit = async (loc: LocationFormData) => {
-    if (!selectedLocation) return;
+    if (!selectedLocation || isSuperAdmin) return;
     try {
       const response = await fetch(`/api/locations/${selectedLocation.id}`, {
         method: "PUT",
@@ -103,7 +106,7 @@ const LocationsPage = () => {
   };
 
   const handleDelete = async (loc: Location) => {
-    if (!loc.id) return;
+    if (!loc.id || isSuperAdmin) return;
 
     try {
       const response = await fetch(`/api/locations/${loc.id}`, {
@@ -136,15 +139,17 @@ const LocationsPage = () => {
 
   const tableHeader = (
     <div className="flex justify-between items-center w-full">
-      <h3 className="text-lg font-semibold">Manage Your Locations</h3>
+      <h3 className="text-lg font-semibold">{isSuperAdmin ? "All locations" : "Manage Your Locations"}</h3>
       <div className="flex gap-2 items-center justify-center">
         <SearchBar onInput={(e) => setGlobalFilter((e.target as HTMLInputElement).value)} />
-        <Button
-          icon="pi pi-plus-circle"
-          label="New location"
-          severity="success"
-          onClick={() => setCreateDialogVisible(true)}
-        />
+        {!isSuperAdmin && (
+          <Button
+            icon="pi pi-plus-circle"
+            label="New location"
+            severity="success"
+            onClick={() => setCreateDialogVisible(true)}
+          />
+        )}
       </div>
     </div>
   );
@@ -177,7 +182,9 @@ const LocationsPage = () => {
           <Column field="city" header="City" sortable style={{ width: '16%' }} />
           <Column field="country" header="Country" sortable style={{ width: '16%' }} />
           <Column field="timezone" header="Timezone" style={{ width: '16%' }} />
-          <Column header="Actions" body={actionTemplate} alignHeader="center" align="center"/>
+          {!isSuperAdmin && (
+            <Column header="Actions" body={actionTemplate} alignHeader="center" align="center"/>
+          )}
         </DataTable>
 
         <LocationFormDialog

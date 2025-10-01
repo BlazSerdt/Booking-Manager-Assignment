@@ -17,6 +17,13 @@ const users: User[] = [
     password: "tenantadmin",
     role: "tenant_admin"
   },
+  {
+    id: "tenant_admin2",
+    displayName: "TenantAdmin2",
+    email: "tenant_admin2@mail.com",
+    password: "tenantadmin2",
+    role: "tenant_admin"
+  },
 ];
 
 // makes a mock JWT using subject(user id) and user role, and encodes with base64, so it looks similar to a token

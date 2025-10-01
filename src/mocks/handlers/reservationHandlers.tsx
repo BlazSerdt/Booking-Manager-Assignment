@@ -215,6 +215,61 @@ export const reservations: Reservation[] = [
     checkOut: new Date(today.setDate(today.getDate() + 12)),
     status: "Cancelled",
   },
+  {
+    id: uuid(),
+    tenantId: "tenant_admin2",
+    locationId: locations[6].id,
+    guestName: "Oliver Bennett",
+    guestPhone: "123-456-789",
+    guestEmail: "oliver@example.com",
+    checkIn: new Date(today.setDate(today.getDate() + 1)),
+    checkOut: new Date(today.setDate(today.getDate() + 3)),
+    status: "Booked",
+  },
+  {
+    id: uuid(),
+    tenantId: "tenant_admin2",
+    locationId: locations[6].id,
+    guestName: "Isabella Reed",
+    guestPhone: "987-654-321",
+    guestEmail: "isabella@example.com",
+    checkIn: new Date(today.setDate(today.getDate() + 4)),
+    checkOut: new Date(today.setDate(today.getDate() + 6)),
+    status: "Checked in",
+  },
+  {
+    id: uuid(),
+    tenantId: "tenant_admin2",
+    locationId: locations[7].id,
+    guestName: "Ethan Hughes",
+    guestPhone: "555-444-333",
+    guestEmail: "ethan@example.com",
+    checkIn: new Date(today.setDate(today.getDate() + 2)),
+    checkOut: new Date(today.setDate(today.getDate() + 5)),
+    status: "Cancelled",
+  },
+  {
+    id: uuid(),
+    tenantId: "tenant_admin2",
+    locationId: locations[7].id,
+    guestName: "Sophia Collins",
+    guestPhone: "222-333-444",
+    guestEmail: "sophia@example.com",
+    checkIn: new Date(today.setDate(today.getDate() + 6)),
+    checkOut: new Date(today.setDate(today.getDate() + 8)),
+    status: "Booked",
+  },
+  {
+    id: uuid(),
+    tenantId: "tenant_admin2",
+    locationId: locations[8].id,
+    guestName: "Liam Foster",
+    guestPhone: "777-888-999",
+    guestEmail: "liam@example.com",
+    checkIn: new Date(today.setDate(today.getDate() + 3)),
+    checkOut: new Date(today.setDate(today.getDate() + 5)),
+    status: "Checked out",
+  },
 ];
 
 export const reservationHandlers = [
@@ -231,9 +286,11 @@ export const reservationHandlers = [
       );
     }
 
-    const filtered = reservations.filter(
-      (res) => res.tenantId === tenantId && res.locationId === locationId
-    );
+    let filtered;
+    if (tenantId === "super_admin")
+      filtered = reservations.filter((res) => res.locationId === locationId);
+    else
+      filtered = reservations.filter((res) => res.tenantId === tenantId && res.locationId === locationId);
 
     return HttpResponse.json(filtered, { status: 200 });
   }),
@@ -331,6 +388,11 @@ export const reservationHandlers = [
         { message: "Missing tenantId" },
         { status: 400 }
       );
+    }
+
+    // if user is super admin, they can bypass this and get all reservations
+    if (tenantId === "super_admin") {
+      return HttpResponse.json(reservations, { status: 200 });
     }
 
     const filtered = reservations.filter((res) => res.tenantId === tenantId);

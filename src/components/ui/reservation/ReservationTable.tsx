@@ -11,6 +11,7 @@ import {Dropdown} from "primereact/dropdown";
 
 export const ReservationTable = ({ locationId }: ReservationTableProps) => {
   const { user } = useAuth();
+  const isSuperAdmin = user?.role === "super_admin";
   const tenantId = user?.id;
   const toast = useRef<Toast>(null);
 
@@ -59,12 +60,14 @@ export const ReservationTable = ({ locationId }: ReservationTableProps) => {
   }, [locationId, tenantId]);
 
   const openEditDialog = (res: Reservation) => {
-    setSelectedReservation(res);
-    setEditDialogVisible(true);
+    if (!isSuperAdmin) {
+      setSelectedReservation(res);
+      setEditDialogVisible(true);
+    }
   }
 
   const handleCreate = async (res: ReservationFormData) => {
-    if (!tenantId) return;
+    if (!tenantId || isSuperAdmin) return;
     try{
       const body = { tenantId: tenantId, locationId: locationId, ...res };
       const response = await fetch("/api/reservations", {
@@ -89,7 +92,7 @@ export const ReservationTable = ({ locationId }: ReservationTableProps) => {
   }
 
   const handleEdit = async (res: ReservationFormData) => {
-    if (!selectedReservation) return;
+    if (!selectedReservation || isSuperAdmin) return;
     try {
       const response = await fetch(`/api/reservations/${selectedReservation.id}`, {
         method: "PUT",
@@ -118,7 +121,7 @@ export const ReservationTable = ({ locationId }: ReservationTableProps) => {
   };
 
   const handleDelete = async (res: Reservation) => {
-    if (!res.id) return;
+    if (!res.id || isSuperAdmin) return;
 
     try {
       const response = await fetch(`/api/reservations/${res.id}`, {
@@ -139,7 +142,7 @@ export const ReservationTable = ({ locationId }: ReservationTableProps) => {
 
   const tableHeader = (
     <div className="flex justify-between items-center">
-      <h3 className="text-lg font-semibold">Manage Reservations</h3>
+      <h3 className="text-lg font-semibold">{isSuperAdmin ? "All Reservations" : "Manage Reservations"}</h3>
       <div className="flex gap-2 items-center justify-center">
         <SearchBar onInput={(e) => setGlobalFilter((e.target as HTMLInputElement).value)} />
         <div className="hidden xl:block">
@@ -157,19 +160,21 @@ export const ReservationTable = ({ locationId }: ReservationTableProps) => {
             className="w-48"
           />
         </div>
-        <Button
-          severity="success"
-          onClick={() => setCreateDialogVisible(true)}
-        >
-          <div className="flex sm:hidden items-center gap-2 font-semibold">
-            <i className="pi pi-plus-circle"></i>
-            <span>New</span>
-          </div>
-          <div className="hidden sm:flex items-center gap-2 font-semibold">
-            <i className="pi pi-plus-circle"></i>
-            <span>New reservation</span>
-          </div>
-        </Button>
+        {!isSuperAdmin && (
+          <Button
+            severity="success"
+            onClick={() => setCreateDialogVisible(true)}
+          >
+            <div className="flex sm:hidden items-center gap-2 font-semibold">
+              <i className="pi pi-plus-circle"></i>
+              <span>New</span>
+            </div>
+            <div className="hidden sm:flex items-center gap-2 font-semibold">
+              <i className="pi pi-plus-circle"></i>
+              <span>New reservation</span>
+            </div>
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -246,7 +251,9 @@ export const ReservationTable = ({ locationId }: ReservationTableProps) => {
         <Column field="checkIn" header="Check-In" body={(rowData) => formatDate(rowData.checkIn)} />
         <Column field="checkOut" header="Check-Out" body={(rowData) => formatDate(rowData.checkOut)} />
         <Column header="Status" alignHeader="center" body={statusBodyTemplate} />
-        <Column header="Actions" alignHeader="center" body={actionBodyTemplate} />
+        {!isSuperAdmin && (
+          <Column header="Actions" alignHeader="center" body={actionBodyTemplate} />
+        )}
       </DataTable>
 
       <ReservationFormDialog
