@@ -3,13 +3,33 @@ import { Card } from "primereact/card";
 import { Avatar } from "primereact/avatar";
 import { Divider } from "primereact/divider";
 import { useAuth } from "../../../components/auth/auth.tsx";
-import UserCard from "../../../components/ui/chat/UserCard.tsx";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
 import { IconField } from "primereact/iconfield";
+import ChatHeader from "../../../components/ui/chat/ChatHeader.tsx";
+import { useState } from "react";
+import type { ChatUser } from "../../../types";
+import UserList from "../../../components/ui/chat/UserList.tsx";
 
 const Chat = () => {
   const { user } = useAuth();
+
+  const users: ChatUser[] = [
+    { name: "John Smith", status: "online" },
+    { name: "Craig Jones", status: "away" },
+    { name: "Katie Shaw", status: "offline" },
+    { name: "Michael Johnson", status: "online" },
+    { name: "Emily Brown", status: "offline" },
+    { name: "Robert Green", status: "away" },
+    { name: "Sophia Lee", status: "online" },
+    { name: "Daniel White", status: "offline" },
+    { name: "Laura Black", status: "away" },
+    { name: "James Miller", status: "online" },
+    { name: "Olivia Taylor", status: "offline" },
+  ];
+
+  const [selectedUser, setSelectedUser] = useState<ChatUser>(users[0]);
+
 
   return (
     <AppLayout>
@@ -27,23 +47,21 @@ const Chat = () => {
             <InputText placeholder="Search" />
           </IconField>
 
-          <div className="flex flex-col gap-2 overflow-y-auto max-h-[58vh]">
-            <UserCard name="John Smith" status="online" />
-            <UserCard name="Craig Jones" status="away" />
-            <UserCard name="Katie Shaw" status="offline" />
-            <UserCard name="Michael Johnson" status="online" />
-            <UserCard name="Emily Brown" status="offline" />
-            <UserCard name="Robert Green" status="away" />
-            <UserCard name="Sophia Lee" status="online" />
-            <UserCard name="Daniel White" status="offline" />
-            <UserCard name="Laura Black" status="away" />
-            <UserCard name="James Miller" status="online" />
-            <UserCard name="Olivia Taylor" status="offline" />
-          </div>
+          <UserList
+            users={users}
+            selectedUser={selectedUser}
+            onSelectUser={setSelectedUser}
+          />
         </Card>
 
-        <Card className="col-span-4 flex">
+        <Card className="col-span-4 flex flex-col px-2">
+          <ChatHeader name={selectedUser.name} status={selectedUser.status} />
 
+          <Divider />
+
+          <div className="flex px-2 pt-2">
+            messages
+          </div>
         </Card>
       </div>
     </AppLayout>

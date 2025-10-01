@@ -58,9 +58,30 @@ export interface StatCardProps {
   iconBg?: string;
 }
 
-export interface ChatUserCardProps {
+export interface ChatUserProps {
   name: string;
   status: "online" | "offline" | "away";
+}
+
+export interface InitialsAvatarProps extends ChatUserProps {
+  size: "large" | "xlarge";
+  className?: string;
+}
+
+export interface ChatUser {
+  name: string;
+  status: "online" | "offline" | "away";
+}
+
+export interface ChatUserCardProps extends ChatUserProps  {
+  onClick?: () => void;
+  selected?: boolean;
+}
+
+export interface UserListProps {
+  users: ChatUser[];
+  selectedUser: ChatUser | null;
+  onSelectUser: (user: ChatUser) => void;
 }
 
 export type Role = "super_admin" | "tenant_admin";
